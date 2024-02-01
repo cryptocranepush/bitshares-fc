@@ -66,7 +66,7 @@ else ( WIN32 )
     ExternalProject_Add( project_secp256k1
      PREFIX ${CMAKE_CURRENT_BINARY_DIR}/vendor/secp256k1-zkp
      SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vendor/secp256k1-zkp
-     CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/vendor/secp256k1-zkp/configure --prefix=${CMAKE_CURRENT_BINARY_DIR}/vendor/secp256k1-zkp --with-bignum=no
+     CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/vendor/secp256k1-zkp/configure --prefix=${CMAKE_CURRENT_BINARY_DIR}/vendor/secp256k1-zkp --with-bignum=no --disable-shared --enable-static
      BUILD_COMMAND make
      INSTALL_COMMAND true
      BUILD_BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/vendor/secp256k1-zkp/src/project_secp256k1-build/.libs/libsecp256k1.a
@@ -95,7 +95,7 @@ if ( NOT WIN32 )
     ExternalProject_Add( project_editline
      PREFIX ${CMAKE_CURRENT_BINARY_DIR}/vendor/editline
      SOURCE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vendor/editline
-     CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/vendor/editline/configure --prefix=${CMAKE_CURRENT_BINARY_DIR}/vendor/editline
+     CONFIGURE_COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/vendor/editline/configure --prefix=${CMAKE_CURRENT_BINARY_DIR}/vendor/editline --disable-shared --enable-static
      BUILD_COMMAND make
      INSTALL_COMMAND true
      BUILD_BYPRODUCTS ${CMAKE_CURRENT_BINARY_DIR}/vendor/editline/src/project_editline-build/src/.libs/libeditline.a
