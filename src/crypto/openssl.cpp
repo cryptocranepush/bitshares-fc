@@ -43,11 +43,28 @@ namespace  fc
 
        ~openssl_scope()
        {
-#if not defined(LIBRESSL_VERSION_NUMBER)
+	#define use_fips_mode_set 0
+	#if not defined(LIBRESSL_VERSION_NUMBER)
           // No FIPS in LibreSSL.
           // https://marc.info/?l=openbsd-misc&m=139819485423701&w=2
-          FIPS_mode_set(0);
-#endif
+	  #define use_fips_mode_set 1
+	#endif
+
+	#if defined(OPENSSL_VERSION_PREREQ) // if in openssl and not super old version:
+          // No FIPS_mode_set in openssl since version 3.0
+	  // https://www.openssl.org/docs/man3.0/man7/migration_guide.html
+	  // - Removed FIPS_mode() and FIPS_mode_set()
+	  // it seems it was not needed anyway(?) especially since version 3.0
+	  // so just remove it there
+          #if OPENSSL_VERSION_PREREQ(3,0)
+	    #define use_fips_mode_set 0
+	  #endif
+	#endif
+
+	  #if use_fips_mode_set
+            FIPS_mode_set(0);
+	  #endif
+
           CONF_modules_unload(1);
           EVP_cleanup();
           CRYPTO_cleanup_all_ex_data();
